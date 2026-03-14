@@ -4,6 +4,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Richard Keelan</title>
+    <script>
+      (function () {
+        const theme = localStorage.getItem("theme-preference");
+        const root = document.documentElement;
+
+        if (theme === "light" || theme === "dark") {
+          root.setAttribute("data-theme", theme);
+        } else {
+          root.removeAttribute("data-theme");
+        }
+      }());
+    </script>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -15,12 +27,50 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>Richard Keelan</h1>
-        <p>Interested in AI, markets broadly construed, and close-to-the-metal programming.</p>
-        <p class="badge-row">
-          <a class="social-badge github-badge" href="https://github.com/RKeelan">GitHub</a>
-          <a class="social-badge linkedin-badge" href="https://www.linkedin.com/in/richard-keelan-79793611/">LinkedIn</a>
-        </p>
+        <div class="header-row">
+          <div class="intro-block">
+            <h1>Richard Keelan</h1>
+            <p class="lede">Interested in AI, markets broadly construed, and close-to-the-metal programming.</p>
+          </div>
+          <div class="theme-menu">
+            <button class="theme-trigger" id="theme-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="theme-options" aria-label="Theme: system">
+              <span class="theme-trigger-icon" aria-hidden="true"></span>
+            </button>
+            <div class="theme-options" id="theme-options" hidden>
+              <button class="theme-option" data-theme-option="system" type="button" aria-label="Use system theme">
+                <span class="theme-option-icon" aria-hidden="true"></span>
+              </button>
+              <button class="theme-option" data-theme-option="light" type="button" aria-label="Use light theme">
+                <span class="theme-option-icon" aria-hidden="true"></span>
+              </button>
+              <button class="theme-option" data-theme-option="dark" type="button" aria-label="Use dark theme">
+                <span class="theme-option-icon" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <p class="badge-row">
+            <a class="social-badge github-badge" href="https://github.com/RKeelan">GitHub</a>
+            <a class="social-badge linkedin-badge" href="https://www.linkedin.com/in/richard-keelan-79793611/">LinkedIn</a>
+          </p>
+          <div class="theme-menu theme-menu-mobile">
+            <button class="theme-trigger" id="theme-trigger-mobile" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="theme-options-mobile" aria-label="Theme: system">
+              <span class="theme-trigger-icon" aria-hidden="true"></span>
+            </button>
+            <div class="theme-options" id="theme-options-mobile" hidden>
+              <button class="theme-option" data-theme-option="system" type="button" aria-label="Use system theme">
+                <span class="theme-option-icon" aria-hidden="true"></span>
+              </button>
+              <button class="theme-option" data-theme-option="light" type="button" aria-label="Use light theme">
+                <span class="theme-option-icon" aria-hidden="true"></span>
+              </button>
+              <button class="theme-option" data-theme-option="dark" type="button" aria-label="Use dark theme">
+                <span class="theme-option-icon" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+        </div>
       </header>
       <section>
         <h2>Published Sites</h2>
@@ -30,15 +80,107 @@
           <p>This section needs JavaScript to load the current list of published sites.</p>
         </noscript>
       </section>
+      <footer>
+        <p class="footer-meta" id="pages-sites-updated"></p>
+      </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
     <script>
       (function () {
         const status = document.getElementById("pages-sites-status");
         const list = document.getElementById("pages-sites-list");
+        const updated = document.getElementById("pages-sites-updated");
+        const themeMenus = [
+          {
+            menu: document.querySelector(".theme-menu:not(.theme-menu-mobile)"),
+            trigger: document.getElementById("theme-trigger"),
+            options: document.getElementById("theme-options")
+          },
+          {
+            menu: document.querySelector(".theme-menu-mobile"),
+            trigger: document.getElementById("theme-trigger-mobile"),
+            options: document.getElementById("theme-options-mobile")
+          }
+        ];
+        const themeButtons = document.querySelectorAll("[data-theme-option]");
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+        const storageKey = "theme-preference";
+        const root = document.documentElement;
+        const themeIcons = {
+          system: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="2"></rect><path d="M10 19h4"></path><path d="M12 16v3"></path></svg>',
+          light: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2.5v2.25"></path><path d="M12 19.25v2.25"></path><path d="M21.5 12h-2.25"></path><path d="M4.75 12H2.5"></path><path d="M18.72 5.28l-1.59 1.59"></path><path d="M6.87 17.13l-1.59 1.59"></path><path d="M18.72 18.72l-1.59-1.59"></path><path d="M6.87 6.87L5.28 5.28"></path></svg>',
+          dark: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M 20.948 19.016 L 19.997 19.845 L 19.370 20.270 L 18.622 20.695 L 17.644 21.145 L 16.444 21.570 L 16.091 21.645 L 14.673 21.870 L 13.475 21.925 L 12.294 21.850 L 11.384 21.695 L 10.256 21.395 L 9.206 20.995 L 8.330 20.570 L 7.403 19.995 L 6.559 19.347 L 5.655 18.497 L 4.805 17.472 L 4.080 16.347 L 3.555 15.270 L 3.180 14.295 L 2.955 13.441 L 2.780 12.331 L 2.700 11.431 L 2.700 10.594 L 2.750 10.406 L 2.750 9.909 L 2.955 8.684 L 3.202 7.764 L 3.680 6.505 L 4.130 5.628 L 4.580 4.903 L 5.303 3.959 L 6.034 3.178 L 7.053 2.305 L 8.078 1.655 L 8.125 1.669 L 7.680 2.430 L 7.230 3.355 L 6.830 4.381 L 6.580 5.233 L 6.352 6.378 L 6.255 7.228 L 6.250 9.056 L 6.430 10.316 L 6.630 11.094 L 6.880 11.944 L 7.205 12.744 L 7.605 13.545 L 8.130 14.422 L 9.127 15.695 L 10.153 16.695 L 11.478 17.670 L 12.255 18.120 L 13.330 18.623 L 14.633 19.045 L 15.634 19.273 L 16.359 19.375 L 16.909 19.425 L 18.297 19.425 L 19.161 19.348 L 20.909 18.977 Z"></path></svg>'
+        };
+        const themeNames = {
+          system: "system",
+          light: "light",
+          dark: "dark"
+        };
+
+        function getStoredTheme() {
+          return localStorage.getItem(storageKey) || "system";
+        }
+
+        function getResolvedTheme(theme) {
+          return theme === "system" ? (mediaQuery.matches ? "dark" : "light") : theme;
+        }
+
+        function applyTheme(theme) {
+          if (theme === "system") {
+            root.removeAttribute("data-theme");
+          } else {
+            root.setAttribute("data-theme", getResolvedTheme(theme));
+          }
+
+          themeButtons.forEach(function (button) {
+            const isActive = button.getAttribute("data-theme-option") === theme;
+            button.classList.toggle("is-active", isActive);
+            button.setAttribute("aria-pressed", isActive ? "true" : "false");
+            button.querySelector(".theme-option-icon").innerHTML = themeIcons[button.getAttribute("data-theme-option")];
+          });
+
+          themeMenus.forEach(function (entry) {
+            entry.trigger.querySelector(".theme-trigger-icon").innerHTML = themeIcons[theme];
+            entry.trigger.setAttribute("aria-label", "Theme: " + themeNames[theme]);
+          });
+        }
+
+        function persistTheme(theme) {
+          if (theme === "system") {
+            localStorage.removeItem(storageKey);
+          } else {
+            localStorage.setItem(storageKey, theme);
+          }
+
+          applyTheme(theme);
+        }
 
         function setStatus(message) {
           status.textContent = message;
+        }
+
+        function setUpdatedDate(value) {
+          updated.textContent = value;
+        }
+
+        function openThemeMenu() {
+          themeMenus.forEach(function (entry) {
+            entry.options.hidden = true;
+            entry.trigger.setAttribute("aria-expanded", "false");
+          });
+        }
+
+        function openSpecificThemeMenu(entry) {
+          openThemeMenu();
+          entry.options.hidden = false;
+          entry.trigger.setAttribute("aria-expanded", "true");
+        }
+
+        function closeThemeMenus() {
+          themeMenus.forEach(function (entry) {
+            entry.options.hidden = true;
+            entry.trigger.setAttribute("aria-expanded", "false");
+          });
         }
 
         function renderSite(site) {
@@ -47,6 +189,7 @@
           const siteLink = document.createElement("a");
           siteLink.href = site.site_url;
           siteLink.textContent = site.name;
+          siteLink.className = "site-name";
 
           const repoLink = document.createElement("a");
           repoLink.href = site.repo_url;
@@ -63,15 +206,56 @@
           description.className = "site-description";
           description.textContent = site.description || "No description provided.";
 
-          const url = document.createElement("p");
-          url.className = "site-url";
-          url.textContent = site.site_url;
-
           item.appendChild(title);
           item.appendChild(description);
-          item.appendChild(url);
           return item;
         }
+
+        themeMenus.forEach(function (entry) {
+          entry.trigger.addEventListener("click", function () {
+            if (entry.options.hidden) {
+              openSpecificThemeMenu(entry);
+            } else {
+              closeThemeMenus();
+            }
+          });
+        });
+
+        themeButtons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            persistTheme(button.getAttribute("data-theme-option"));
+            closeThemeMenus();
+          });
+        });
+
+        document.addEventListener("click", function (event) {
+          const clickedInsideMenu = themeMenus.some(function (entry) {
+            return entry.menu.contains(event.target);
+          });
+
+          if (!clickedInsideMenu) {
+            closeThemeMenus();
+          }
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") {
+            closeThemeMenus();
+            themeMenus.forEach(function (entry) {
+              entry.trigger.blur();
+            });
+          }
+        });
+
+        if (typeof mediaQuery.addEventListener === "function") {
+          mediaQuery.addEventListener("change", function () {
+            if (getStoredTheme() === "system") {
+              applyTheme("system");
+            }
+          });
+        }
+
+        applyTheme(getStoredTheme());
 
         fetch("data/pages-sites.json")
           .then(function (response) {
@@ -85,6 +269,7 @@
 
             if (!data.sites || data.sites.length === 0) {
               setStatus("No published GitHub Pages repositories found.");
+              setUpdatedDate("");
               return;
             }
 
@@ -93,14 +278,17 @@
             });
 
             if (data.generated_at) {
-              const updated = new Date(data.generated_at);
-              setStatus("Last updated: " + updated.toLocaleString());
+              const generatedAt = new Date(data.generated_at);
+              setUpdatedDate("Last updated: " + generatedAt.toLocaleDateString());
             } else {
-              setStatus("Published GitHub Pages repositories.");
+              setUpdatedDate("");
             }
+
+            setStatus("");
           })
           .catch(function () {
             setStatus("Unable to load the published sites list right now.");
+            setUpdatedDate("");
           });
       }());
     </script>
