@@ -31,6 +31,9 @@ jobs:
           json.loads(Path("data/pages-sites.json").read_text(encoding="utf-8"))
           PY
 
+      - name: Install workflow validation dependency
+        run: python3 -m pip install pyyaml
+
       - name: Check workflow YAML
         run: |
           python3 - <<'PY'
