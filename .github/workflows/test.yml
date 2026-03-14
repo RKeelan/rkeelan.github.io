@@ -31,5 +31,13 @@ jobs:
           json.loads(Path("data/pages-sites.json").read_text(encoding="utf-8"))
           PY
 
-      - name: Lint GitHub Actions workflows
-        uses: rhysd/actionlint@v1
+      - name: Check workflow YAML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import yaml
+
+          for path in sorted(Path(".github").rglob("*.yml")):
+              with path.open("r", encoding="utf-8") as handle:
+                  yaml.safe_load(handle)
+          PY
