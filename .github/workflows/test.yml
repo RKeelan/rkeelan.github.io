@@ -1,0 +1,46 @@
+name: Validate Repository
+
+on:
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Check Python syntax
+        run: python3 -m py_compile scripts/update_pages_sites.py
+
+      - name: Check JSON data
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          json.loads(Path("data/pages-sites.json").read_text(encoding="utf-8"))
+          PY
+
+      - name: Install workflow validation dependency
+        run: python3 -m pip install pyyaml
+
+      - name: Check workflow YAML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import yaml
+
+          for path in sorted(Path(".github").rglob("*.yml")):
+              with path.open("r", encoding="utf-8") as handle:
+                  yaml.safe_load(handle)
+          PY
