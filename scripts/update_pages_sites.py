@@ -109,6 +109,13 @@ def main():
         return 1
 
     output = build_output(username, token)
+
+    # Preserve the old generated_at if only the timestamp changed
+    if output_path.exists():
+        old = json.loads(output_path.read_text(encoding="utf-8"))
+        if old.get("sites") == output["sites"]:
+            output["generated_at"] = old["generated_at"]
+
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(output, indent=2) + "\n", encoding="utf-8")
     return 0
