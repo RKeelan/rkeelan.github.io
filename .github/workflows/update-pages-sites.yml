@@ -6,6 +6,7 @@ on:
     - cron: "17 6 * * *"
 
 permissions:
+  actions: write
   contents: write
 
 jobs:
@@ -38,3 +39,7 @@ jobs:
           git add data/pages-sites.json
           git commit -m "Update Pages sites data"
           git push
+
+          gh workflow run deploy-pages.yml
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
