@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-31T01:13:21.492038+00:00",
+  "generated_at": "2026-07-18T08:08:12.049969+00:00",
   "sites": [
     {
       "name": "lesson-planner",
@@ -14,6 +14,13 @@
       "description": "Resources for primary teachers",
       "repo_url": "https://github.com/RKeelan/MmeKeelan.com",
       "site_url": "https://rkeelan.github.io/MmeKeelan.com/"
+    },
+    {
+      "name": "Prosody",
+      "full_name": "RKeelan/Prosody",
+      "description": "A single-poem study session: syntax before interpretation, granular before broad.",
+      "repo_url": "https://github.com/RKeelan/Prosody",
+      "site_url": "https://rkeelan.github.io/Prosody/"
     },
     {
       "name": "scanned-image-cleaner",
