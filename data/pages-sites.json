@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T13:14:25.298898+00:00",
+  "generated_at": "2026-11-25T17:13:11.301412+00:00",
   "sites": [
     {
       "name": "lesson-planner",
@@ -42,6 +42,13 @@
       "description": "Browser-based handwriting synthesis using Alex Graves' RNN model",
       "repo_url": "https://github.com/RKeelan/Scriptum",
       "site_url": "https://rkeelan.github.io/Scriptum/"
+    },
+    {
+      "name": "Sigil",
+      "full_name": "RKeelan/Sigil",
+      "description": "A live-preview Markdown editor component built on CodeMirror 6",
+      "repo_url": "https://github.com/RKeelan/Sigil",
+      "site_url": "https://rkeelan.github.io/Sigil/"
     },
     {
       "name": "Website",
